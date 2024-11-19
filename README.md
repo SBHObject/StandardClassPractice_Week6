@@ -27,3 +27,13 @@
   - 플레이어의 체력바는 시점, 컨셉에 따라 달라짐
     - 플레이어가 3인칭 시점, 탑다운 방식으로 존재할경우 몬스터처럼 캐릭터 상단에 WorldSpace 로 Canvas를 사용하여 표기할 수 있음
     - 1인칭 시점일 경우 HUD 형식의 UI를 사용하게 되어 Screen Space - Overlay, Screen Space - Camera를 사용하여 카메라에 체력바를 직접 보여주는 방식을 선택하게됨
+
+### 확장문제
+
+- Resume Game이라는 텍스트가 들어있는 버튼을 만들고, 그 버튼을 누르면 게임이 재개되게 하세요.
+
+![일시정지](https://file.notion.so/f/f/f3d7f86c-cdab-4d84-9092-b767f79f7186/9e25a6fc-4970-49e6-953c-0df483865e92/2024-11-19_12-24-41.gif?table=block&id=14343507-6cd3-80e9-91d1-e4b05dae50a1&spaceId=f3d7f86c-cdab-4d84-9092-b767f79f7186&expirationTimestamp=1732075200000&signature=zXuPqTfvrIZVYw7QJR04Br_StQYFjeY4bnjyg5tvu8I)
+
+- ESC 키를 누르면 일시정지
+- Time.TimeScale = 0 으로 하는 방법으로 일시정지를 구현
+- Resume 버튼을 누르거나, ESC를 다시 누르면 이어하기
