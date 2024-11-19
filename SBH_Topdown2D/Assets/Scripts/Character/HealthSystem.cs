@@ -88,6 +88,24 @@ public class HealthSystem : MonoBehaviour
         return true;
     }
 
+    public void TakeDamageNonInvincible(float change)
+    {
+        CurrentHealth -= change;
+        CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
+
+        if (CurrentHealth <= 0f)
+        {
+            CallDeath();
+        }
+
+        OnDamage?.Invoke();
+
+        if (damageClip)
+        {
+            SoundManager.PlayClip(damageClip);
+        }
+    }
+
     private void CallDeath()
     {
         OnDeath?.Invoke();

@@ -4,7 +4,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System;
 
 public enum UpgradeOption
 {
@@ -137,6 +136,8 @@ public class GameManager : MonoBehaviour
         if(currentWaveIndex % 10 == 0)
         {
             IncreaseSpawnPositions();
+            TakeRandomDebuff();
+
         }
 
         if(currentWaveIndex % 5 == 0)
@@ -258,5 +259,13 @@ public class GameManager : MonoBehaviour
             IsPaused = true;
         }
         pauseUI.SetActive(IsPaused);
+    }
+
+    private void TakeRandomDebuff()
+    {
+        int randomDamageRate = Random.Range(0, 51);
+        float randomDamage = playerHealthSystem.CurrentHealth * (randomDamageRate / 100f);
+
+        playerHealthSystem.TakeDamageNonInvincible(randomDamage);
     }
 }
