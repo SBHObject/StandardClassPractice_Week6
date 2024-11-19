@@ -15,6 +15,7 @@ public class PlayerInputController : TopDownController
 
     public void OnMove(InputValue value)
     {
+        if (GameManager.Instance.IsPaused) return;
         // Debug.Log("OnMove" + value.ToString());
         Vector2 moveInput = value.Get<Vector2>().normalized;
         CallMoveEvent(moveInput);
@@ -22,6 +23,7 @@ public class PlayerInputController : TopDownController
 
     public void OnLook(InputValue value)
     {
+        if (GameManager.Instance.IsPaused) return;
         // Debug.Log("OnLook" + value.ToString());
         Vector2 newAim = value.Get<Vector2>();
         Vector2 worldPos = _camera.ScreenToWorldPoint(newAim);
@@ -36,6 +38,15 @@ public class PlayerInputController : TopDownController
 
     public void OnFire(InputValue value)
     {
+        if (GameManager.Instance.IsPaused) return;
         isAttacking = value.isPressed;
+    }
+
+    public void OnPause(InputValue value)
+    {
+        if(value.isPressed)
+        {
+            GameManager.Instance.PauseGame();
+        }
     }
 }

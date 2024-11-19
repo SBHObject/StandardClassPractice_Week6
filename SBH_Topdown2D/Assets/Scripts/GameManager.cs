@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System;
 
 public enum UpgradeOption
 {
@@ -48,6 +49,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CharacterStat defaultStats;
     [SerializeField] private CharacterStat rangedStats;
 
+    public bool IsPaused { get; private set; } = false;
+    public GameObject pauseUI;
     private void Awake()
     {
         Instance = this;
@@ -151,7 +154,7 @@ public class GameManager : MonoBehaviour
     {
         for(int i = 0; i < waveSpawnPosCount; i ++)
         {
-            int posIdx = Random.Range(0, spawnPositions.Count);
+            int posIdx = UnityEngine.Random.Range(0, spawnPositions.Count);
             for(int j = 0; j < waveSpawnCount; j ++)
             {
                 SpawnEnemyAtPosition(posIdx);
@@ -162,7 +165,7 @@ public class GameManager : MonoBehaviour
 
     private void SpawnEnemyAtPosition(int posIdx)
     {
-        int prefabIdx = Random.Range(0, enemyPrefabs.Count);
+        int prefabIdx = UnityEngine.Random.Range(0, enemyPrefabs.Count);
         GameObject enemy = Instantiate(enemyPrefabs[prefabIdx], spawnPositions[posIdx].position, Quaternion.identity);
         enemy.GetComponent<CharacterStatHandler>().AddStatModifire(defaultStats);
         enemy.GetComponent<CharacterStatHandler>().AddStatModifire(rangedStats);
@@ -192,7 +195,7 @@ public class GameManager : MonoBehaviour
 
     private void RandomUpgrade()
     {
-        UpgradeOption option = (UpgradeOption)Random.Range(0, (int)UpgradeOption.COUNT);
+        UpgradeOption option = (UpgradeOption)UnityEngine.Random.Range(0, (int)UpgradeOption.COUNT);
 
         switch(option)
         {
@@ -230,8 +233,8 @@ public class GameManager : MonoBehaviour
 
     private void CreateReward()
     {
-        int selectedRewardIndex = Random.Range(0, rewards.Count);
-        int randomPositionIndex = Random.Range(0, spawnPositions.Count);
+        int selectedRewardIndex = UnityEngine.Random.Range(0, rewards.Count);
+        int randomPositionIndex = UnityEngine.Random.Range(0, spawnPositions.Count);
 
         GameObject obj = rewards[selectedRewardIndex];
         Instantiate(obj, spawnPositions[randomPositionIndex].position, Quaternion.identity);
@@ -240,5 +243,20 @@ public class GameManager : MonoBehaviour
     private void OnEnemyDeath()
     {
         currentSpawnCount--;
+    }
+
+    public void PauseGame()
+    {
+        if (IsPaused)
+        {
+            Time.timeScale = 1;
+            IsPaused = false;
+        }
+        else
+        {
+            Time.timeScale = 0f;
+            IsPaused = true;
+        }
+        pauseUI.SetActive(IsPaused);
     }
 }
