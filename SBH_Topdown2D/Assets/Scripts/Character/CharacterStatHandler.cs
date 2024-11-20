@@ -20,6 +20,7 @@ public class CharacterStatHandler : MonoBehaviour
 
     private readonly int minMaxHealth = 5;
 
+    //코드를 분리한다는게... Instantiate 하는 부분을 메서드로 따로 빼달라는건가?
     private void Awake()
     {
         if(baseStats.attackSO != null)
@@ -53,6 +54,7 @@ public class CharacterStatHandler : MonoBehaviour
         }
     }
 
+    //분리...?
     private void ApplyStatModifiers(CharacterStat modifier)
     {
         Func<float, float, float> operation = modifier.statsChangeType switch
