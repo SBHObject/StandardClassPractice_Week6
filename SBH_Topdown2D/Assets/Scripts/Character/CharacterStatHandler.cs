@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class CharacterStatHandler : MonoBehaviour
@@ -23,13 +24,18 @@ public class CharacterStatHandler : MonoBehaviour
     //코드를 분리한다는게... Instantiate 하는 부분을 메서드로 따로 빼달라는건가?
     private void Awake()
     {
-        if(baseStats.attackSO != null)
+        InitStats();
+
+        UpdateCharacterStat();
+    }
+
+    private void InitStats()
+    {
+        if (baseStats.attackSO != null)
         {
             baseStats.attackSO = Instantiate(baseStats.attackSO);
             CurrentStat.attackSO = Instantiate(baseStats.attackSO);
         }
-
-        UpdateCharacterStat();
     }
 
     public void AddStatModifire(CharacterStat statModifier)
@@ -57,12 +63,7 @@ public class CharacterStatHandler : MonoBehaviour
     //분리...?
     private void ApplyStatModifiers(CharacterStat modifier)
     {
-        Func<float, float, float> operation = modifier.statsChangeType switch
-        {
-            StatsChangeType.Add => (current, change) => current + change,
-            StatsChangeType.Multiple => (current, change) => current * change,
-            _ => (current, change) => change,
-        };
+        Func<float, float, float> operation = SetModifierTypeAction(modifier);
 
         UpdateBasicStats(operation, modifier);
         UpdateAttackStats(operation, modifier);
@@ -70,6 +71,19 @@ public class CharacterStatHandler : MonoBehaviour
         if(CurrentStat.attackSO is RangedAttackSO currentRanged && modifier.attackSO is RangedAttackSO newRanged)
         {
             UpdateRangedAttackStats(operation, currentRanged, newRanged);
+        }
+    }
+
+    private Func<float,float,float> SetModifierTypeAction(CharacterStat modifier)
+    {
+        switch (modifier.statsChangeType)
+        {
+            case StatsChangeType.Add:
+                return (current, change) => current + change;
+            case StatsChangeType.Multiple:
+                return (current, change) => current * change;
+            default:
+                return (current,change) => change;
         }
     }
 
