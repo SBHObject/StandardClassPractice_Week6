@@ -98,3 +98,18 @@
 - 추상 클래스를 사용하지 않고 동일한 기능을 구현하려면 어떤 문제가 발생할 수 있는지 설명해보세요.
   - 동일한 기능이지만, 다른 클래스 객체를 생성한 뒤, 해당 기능을 메서드에서 호출해야한다.
   - 해당 기능을 필요로하는 클래스가, 기능을 가진 각자의 클래스의 객체를 생성하여 메서드 기능을 사용하게 되고, 어떤 클래스의 메서드를 사용할지 결정하는 연산이 추가되게 된다.
+
+### 개선 문제
+
+- CharacterStatHandler.cs 개선
+- Awake 메소드 내의 초기화 코드를 분리하는 것이 더 깔끔해보일 것 같습니다.
+
+![Awake변경](https://laced-rutabaga-712.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Ff3d7f86c-cdab-4d84-9092-b767f79f7186%2Fa350674a-3bb9-46cc-b9b7-4786addd7464%2F%25EC%258A%25A4%25ED%2581%25AC%25EB%25A6%25B0%25EC%2583%25B7(1221).png?table=block&id=14543507-6cd3-80d8-8ef1-e59e034e3004&spaceId=f3d7f86c-cdab-4d84-9092-b767f79f7186&width=1360&userId=&cache=v2)
+
+- Awake 에 별개의 코드를 적어서 사용하기보다는, 메서드들에 실행할 코드들을 분리해둔 뒤, 메서드를 실행하는것이 해당 코드들이 어떤 역할을 하는지 알아보기 좋은 형태가 됨
+
+- ApplyStatModifiers 메소드 내의 switch식의 코드를 분리하면 가독성이 높아질 것 같습니다.
+
+![Switch문 분리](https://laced-rutabaga-712.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Ff3d7f86c-cdab-4d84-9092-b767f79f7186%2Fcef8387f-1718-4d7c-a3fc-4965635efdfe%2F%25EC%258A%25A4%25ED%2581%25AC%25EB%25A6%25B0%25EC%2583%25B7(1220).png?table=block&id=14543507-6cd3-8070-a359-c6daa4f247b5&spaceId=f3d7f86c-cdab-4d84-9092-b767f79f7186&width=1360&userId=&cache=v2)
+
+- 스위치문이 가독성이 떨어지는 경우가 있음, 메서드 명을 통해 해당 스위치문이 어떤 역할을 하는지 대략적인 정보를 보여줄 수 있음
